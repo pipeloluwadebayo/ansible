@@ -4,4 +4,4 @@ azurecloud:
       ansible_host: "{{ ansible_host }}"
       ansible_ssh_private_key_file: "{{ private_key }}"
       vars_files:
-        - vars/main.yml
+        - vars/main.yaml

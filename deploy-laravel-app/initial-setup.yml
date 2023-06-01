@@ -1,0 +1,40 @@
+---
+
+- hosts: all
+  gather_facts: False
+  remote_user: "{{ user }}"
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - name: ssh
+      tags: ssh
+
+  pre_tasks:
+    - name: Install aptitude
+      ansible.builtin.apt:
+        name: aptitude
+        state: present
+      become: true
+
+    - name: Update all packages
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: safe
+        autoremove: yes
+      become: true
+
+    - name: Install essential packages
+      ansible.builtin.apt:
+        pkg: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - curl
+        - lsb-release
+        - ca-certificates
+        - apt-transport-https
+        - software-properties-common
+        - gnupg2
+      become: true

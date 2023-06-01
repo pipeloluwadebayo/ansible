@@ -1,0 +1,31 @@
+---
+
+- name: php artisan clear-compiled
+  shell: php artisan clear-compiled
+  args:
+    chdir: "{{ doc_root }}"
+
+- name: php artisan optimize
+  shell: php artisan optimize
+  args:
+    chdir: "{{ doc_root }}"
+
+- name: php artisan config:clear
+  shell: php artisan config:clear
+  args:
+    chdir: "{{ doc_root }}"
+
+- name: php artisan cache:clear
+  shell: php artisan cache:clear
+  args:
+    chdir: "{{ doc_root }}"
+
+- name: php artisan view:clear
+  shell: php artisan view:clear
+  args:
+    chdir: "{{ doc_root }}"
+
+- name: php artisan config:cache
+  shell: php artisan config:cache
+  args:
+    chdir: "{{ doc_root }}"

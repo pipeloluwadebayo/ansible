@@ -1,0 +1,27 @@
+---
+
+- name: Ensure ssh is installed
+  ansible.builtin.apt:
+    pkg: openssh-server
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+
+- name: Disable root login
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin'
+    line: 'PermitRootLogin no'
+    state: present
+  become: true
+  notify: Restart ssh
+
+- name: Disable password authentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+    state: present
+  become: true
+  notify: Restart ssh

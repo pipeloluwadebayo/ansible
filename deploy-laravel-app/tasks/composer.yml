@@ -1,0 +1,17 @@
+---
+
+- name: Install composer
+  ansible.builtin.shell:
+    cmd: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+    chdir: "{{ doc_root }}"
+    executable: /bin/bash
+  become: true
+
+- name: Install composer dependencies
+  community.general.composer:
+    command: create-project
+    working_dir: "{{ doc_root }}"
+    prefer_dist: yes
+    optimize_autoloader: yes
+    no_dev: no
+    no_scripts: yes

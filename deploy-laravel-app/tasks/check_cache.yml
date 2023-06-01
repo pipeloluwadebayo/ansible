@@ -1,0 +1,14 @@
+---
+
+- name: Check that cache folder is writable
+  ansible.builtin.file:
+    path: "{{ doc_root }}/bootstrap/cache"
+    state: directory
+    mode: 02771
+    recurse: true
+  become: true
+
+- name: Set correct permissions for files in cache folder
+  ansible.builtin.shell:
+    cmd: find "{{ doc_root }}/bootstrap/cache" -type f ! -perm 0660 -exec chmod 0660 {} \;
+  become: true

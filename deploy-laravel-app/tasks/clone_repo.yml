@@ -1,0 +1,13 @@
+---
+
+- name: Remove old project directory and create a new one
+  ansible.builtin.shell:
+    cmd: rm -rf "{{ doc_root }}" && mkdir "{{ doc_root }}"
+  become: true
+
+- name: Clone application repository
+  ansible.builtin.git:
+    dest: "{{ doc_root }}"
+    repo: "{{ repo_url }}"
+    update: no
+  become: true

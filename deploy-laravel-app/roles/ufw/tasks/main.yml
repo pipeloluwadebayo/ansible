@@ -1,0 +1,36 @@
+---
+
+- name: Install ufw
+  ansible.builtin.apt:
+    pkg: ufw
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+  become: true
+
+- name: Default ufw config - deny all access
+  community.general.ufw:
+    default: deny
+    state: enabled
+  become: true
+
+- name: Allow all access to ssh
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+  become: true
+  notify: Restart ufw
+
+- name: Allow all access to http
+  community.general.ufw:
+    rule: allow
+    port: 80
+  become: true
+  notify: Restart ufw
+
+- name: Allow all access to https
+  community.general.ufw:
+    rule: allow
+    port: 443
+  become: true
+  notify: Restart ufw

@@ -1,0 +1,16 @@
+---
+
+- name: Empty Database
+  ansible.builtin.shell: "{{ empty_db }}"
+
+- name: Run migrations
+  ansible.builtin.shell: php artisan migrate --force
+  args:
+    chdir: "{{ doc_root }}"
+  register: migrations
+
+- name: Seed Database
+  ansible.builtin.shell: php artisan db:seed --force
+  args:
+    chdir: "{{ doc_root }}"
+  when: migrations is succeeded

@@ -1,0 +1,41 @@
+---
+
+- name: Install apache
+  ansible.builtin.apt:
+    pkg: apache2
+    state: present
+    update_cache: true
+  notify: Start apache
+  become: true
+
+- name: Create document root
+  ansible.builtin.file:
+    path: "{{ doc_root }}"
+    state: directory
+    recurse: true
+    owner: www-data
+    group: www-data
+    mode: 0775
+  become: true
+  notify: Reload apache
+
+- name: Create config file
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "/etc/apache2/sites-available/{{ item | basename | regex_replace('\\.j2', '') }}"
+    owner: root
+    group: root
+  with_fileglob:
+    - "templates/*.j2"
+  become: true
+  notify: Reload apache
+
+- name: Enable apache modules and rewrite
+  ansible.builtin.command: /usr/sbin/a2enmod rewrite
+  become: true
+  notify: Reload apache
+
+- name: Enable laravel site
+  ansible.builtin.command: /usr/sbin/a2ensite laravel.conf
+  become: true
+  notify: Reload apache

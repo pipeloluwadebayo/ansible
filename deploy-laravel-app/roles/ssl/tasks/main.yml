@@ -1,0 +1,14 @@
+---
+
+- name: Install Let's Ecrypt Package
+  ansible.builtin.apt:
+    pkg: "{{ certbot_package }}"
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: Create and Install Cert Using "{{ certbot_plugin }}" Plugin
+  ansible.builtin.command:
+    cmd: "certbot --{{ certbot_plugin }} -d  {{ ansible_host }} -m {{ certbot_email }} --agree-tos --noninteractive --redirect"
+  become: true
+  notify: Restart apache

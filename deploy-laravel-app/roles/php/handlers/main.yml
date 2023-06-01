@@ -1,0 +1,13 @@
+---
+
+- name: Update apt
+  ansible.builtin.apt:
+    update_cache: yes
+    autoremove: yes
+  become: true
+
+- name: Reload apache
+  ansible.builtin.service:
+    name: apache2
+    state: reloaded
+  become: true

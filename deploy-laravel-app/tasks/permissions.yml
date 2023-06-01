@@ -1,0 +1,13 @@
+---
+
+- name: Set correct owner and group for project folder
+  ansible.builtin.command: find "{{ doc_root }}" -exec chown -R "{{ user }}:www-data" {} \;
+  become: true
+
+- name: Set correct permissions on folders
+  ansible.builtin.shell:
+    cmd: find "{{ doc_root }}" -type d ! -perm 0775 -exec chmod -R 0775 {} \;
+
+- name: Set correct permissions on files
+  ansible.builtin.shell:
+    cmd: find "{{ doc_root }}" -type f ! -perm 0750 -exec chmod -R 0750 {} \;

@@ -1,0 +1,7 @@
+---
+
+- name: Run postgres script
+  ansible.builtin.script:
+    cmd: postgres.sh
+    chdir: /tmp
+  notify: Restart postgres

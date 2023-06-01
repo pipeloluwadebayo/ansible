@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName {{ ansible_host }}
+    DocumentRoot {{ doc_root }}/public
+
+    <Directory {{ doc_root }}>
+        Options +FollowSymlinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

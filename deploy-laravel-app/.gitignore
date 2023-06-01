@@ -1,0 +1,4 @@
+*.log
+.env
+vars/main.yml
+roles/psql/files/postgres.sh

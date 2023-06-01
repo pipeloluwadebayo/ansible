@@ -1,0 +1,33 @@
+# privileged user on the remote server
+user: { your host username }
+
+# ansible_host
+ansible_host: { host ip | domain name }
+
+# private key path
+private_key: { /path/to/private/for/ansible_host }
+
+# document root
+doc_root: { /path/to/project/dir/on/host }
+
+# database name
+db_name: { postgres database name }
+
+# database user
+db_user: { postgres database username }
+
+# database user password
+db_user_password: { db_user password on postgres }
+
+# empty database
+# empty_db: echo "DROP DATABASE {{ db_name }};" | sudo mysql && echo "CREATE DATABASE {{ db_name }};" | sudo mysql
+empty_db: sudo -u postgres dropdb --if-exists { db_name } && sudo -u postgres createdb { db_name } | echo "GRANT ALL PRIVILEGES ON DATABASE { db_name } TO { db_user };" | sudo -u postgres psql
+
+# project repository
+repo_url: https://github.com/f1amy/laravel-realworld-example-app.git
+
+certbot_package: "python3-certbot-apache"
+
+certbot_plugin: "apache"
+
+certbot_email: { valid email address }
